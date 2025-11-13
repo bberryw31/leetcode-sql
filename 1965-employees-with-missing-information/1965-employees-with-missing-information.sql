@@ -1,9 +1,8 @@
 select es.employee_id
 from (
-    select employee_id from employees
+    select * from employees left join salaries using(employee_id)
     union
-    select employee_id from salaries
+    select * from employees right join salaries using(employee_id)
 ) es
-where employee_id not in (select e.employee_id from employees e
-join salaries s on e.employee_id = s.employee_id)
+where es.salary is null or es.name is null
 order by es.employee_id
